@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - RedStore Shoes</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html"><img src="images/logo.png" width="125px"></a>
+            </div>
+            <nav>
+                <ul id="MenuItems">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html" class="active">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="account.html">Account</a></li>
+                </ul>
+            </nav>
+            <div class="cart-icon">
+                <a href="cart.html" style="position: relative; display: inline-block;">
+                    <img src="images/cart.png" width="30px" height="30px">
+                    <span id="cartCount" style="
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff523b;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+        ">0</span>
+                </a>
+            </div>
+
+            <img src="images/menu.png" class="menu-icon" onClick="menutoggle()">
+        </div>
+    </div>
+    </div>
+
+    <section class="about-hero">
+        <div>
+            <h1>About RedStore Shoes</h1>
+            <p>Comfort, Style & Performance – Designed for Every Step You Take.</p>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <div class="small-container">
+            <div class="about-row">
+                <div class="about-text">
+                    <h2>Who We Are</h2>
+                    <p>
+                        RedStore Shoes is a modern footwear brand focused on delivering
+                        high-quality, stylish and comfortable shoes for everyday life.
+                        From casual sneakers to premium sports shoes, we design products
+                        that match your lifestyle and personality.
+                    </p>
+                    <p>
+                        Our mission is simple: provide premium quality at affordable prices,
+                        without compromising on design or durability.
+                    </p>
+                </div>
+                <div class="about-image">
+                    <img src="images/product-5.jpg" alt="About Shoes">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="values">
+        <div class="small-container">
+            <h2>Why Choose RedStore</h2>
+            <p class="values-subtitle">
+                Comfort, durability & modern style – everything your feet deserve.
+            </p>
+
+            <div class="value-boxes">
+
+                <div class="value-box">
+                    <img src="images/product-5.jpg" alt="Quality">
+                    <h3>Premium Quality</h3>
+                    <p>High-grade materials for maximum comfort and long-lasting wear.</p>
+                </div>
+
+                <div class="value-box">
+                    <img src="images/product-10.jpg" alt="Design">
+                    <h3>Modern Design</h3>
+                    <p>Stylish shoes crafted to match your everyday fashion.</p>
+                </div>
+
+                <div class="value-box">
+                    <img src="images/images.png" alt="Price">
+                    <h3>Affordable Prices</h3>
+                    <p>Luxury-quality shoes without the premium price tag.</p>
+                </div>
+
+                <div class="value-box">
+                    <img src="images/customer.jpg" alt="Customer">
+                    <h3>Customer Satisfaction</h3>
+                    <p>Trusted by thousands for comfort, style & reliability.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <div class="footer">
+        <div class="container">
+
+            <div class="row">
+                <div class="footer-col-1">
+                    <h3>Download Our App</h3>
+                    <p>Download App for Android and ios mobile phone.</p>
+                    <div class="app-logo">
+                        <img src="images/play-store.png" alt="">
+                        <img src="images/app-store.png" alt="">
+                    </div>
+                </div>
+                <div class="footer-col-2">
+                    <img src="images/logo-white.png">
+                    <p>Our Purpose Is To Sustainably Make the Pleasure and Benefits of Sports Accessible to the Many.
+                    </p>
+                </div>
+                <div class="footer-col-3">
+                    <h3>Useful Links</h3>
+                    <ul>
+                        <li>Coupons</li>
+                        <li>Blog Post</li>
+                        <li>Return Policy</li>
+                        <li>Join Affiliate</li>
+                    </ul>
+                </div>
+                <div class="footer-col-4">
+                    <h3>Follow us</h3>
+                    <ul>
+                        <li>Facebook</li>
+                        <li>Twitter</li>
+                        <li>Instagram</li>
+                        <li>Youtube</li>
+                    </ul>
+                </div>
+
+            </div>
+            <hr>
+        </div>
+    </div>
+
+    <script>
+        var MenuItems = document.getElementById("MenuItems");
+        MenuItems.style.maxHeight = "0px";
+        function menutoggle() {
+            MenuItems.style.maxHeight =
+                MenuItems.style.maxHeight === "0px" ? "200px" : "0px";
+        }
+    </script>
+
+</body>
+
+</html>

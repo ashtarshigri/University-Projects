@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width-device-width, initial-scale=1.0">
+    <title>All Products - Redstore</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html"><img src="images/logo.png" width="125px"></a>
+            </div>
+            <nav>
+                <ul id="MenuItems">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="account.html">Account</a></li>
+                </ul>
+            </nav>
+            <div class="cart-icon">
+                <a href="cart.html" style="position: relative; display: inline-block;">
+                    <img src="images/cart.png" width="30px" height="30px">
+                    <span id="cartCount" style="
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff523b;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+        ">0</span>
+                </a>
+            </div>
+
+            <img src="images/menu.png" class="menu-icon" onClick="menutoggle()">
+        </div>
+
+        <div class="small-container">
+            <div class="row row-2">
+                <h2>All Products</h2>
+            </div>
+
+            <div class="row" id="productsRow">
+            </div>
+
+            <div class="page-btn" id="pagination"></div>
+        </div>
+        <div class="footer">
+        <div class="container">
+
+            <div class="row">
+                <div class="footer-col-1">
+                    <h3>Download Our App</h3>
+                    <p>Download App for Android and ios mobile phone.</p>
+                    <div class="app-logo">
+                        <img src="images/play-store.png" alt="">
+                        <img src="images/app-store.png" alt="">
+                    </div>
+                </div>
+                <div class="footer-col-2">
+                    <img src="images/logo-white.png">
+                    <p>Our Purpose Is To Sustainably Make the Pleasure and Benefits of Sports Accessible to the Many.
+                    </p>
+                </div>
+                <div class="footer-col-3">
+                    <h3>Useful Links</h3>
+                    <ul>
+                        <li>Coupons</li>
+                        <li>Blog Post</li>
+                        <li>Return Policy</li>
+                        <li>Join Affiliate</li>
+                    </ul>
+                </div>
+                <div class="footer-col-4">
+                    <h3>Follow us</h3>
+                    <ul>
+                        <li>Facebook</li>
+                        <li>Twitter</li>
+                        <li>Instagram</li>
+                        <li>Youtube</li>
+                    </ul>
+                </div>
+
+            </div>
+            <hr>
+        </div>
+    </div>
+        <script>
+            var MenuItems = document.getElementById("MenuItems");
+            MenuItems.style.maxHeight = "0px";
+
+            function menutoggle() {
+                MenuItems.style.maxHeight = MenuItems.style.maxHeight === "0px" ? "200px" : "0px";
+            }
+
+            const products = [
+                { id: 11, name: "Downshifter Sports Shoes", price: 50, image: "images/product-11.jpg", rating: 3.5 },
+                { id: 2, name: "Lace-Up Running Shoes", price: 35, image: "images/product-2.jpg", rating: 4.5 },
+                { id: 3, name: "Lace Fastening Shoes", price: 15, image: "images/product-3.jpg", rating: 4 },
+                { id: 10, name: "Flat Lace-Fastening Shoes", price: 48, image: "images/product-10.jpg", rating: 3 },
+                { id: 5, name: "Flat Heel gray shoes", price: 50, image: "images/product-5.jpg", rating: 3.5 },
+                { id: 7, name: "HRX Men's cotton socks", price: 9, image: "images/product-7.jpg", rating: 4 },
+                { id: 12, name: "Lace-Fastening white Shoes", price: 21, image: "images/product-12.jpg", rating: 3 },
+                { id: 13, name: "Loafers Men (Gray)", price: 15, image: "images/product-11.jpg", rating: 3 },
+            ];
+
+            const productsRow = document.getElementById("productsRow");
+            const pagination = document.getElementById("pagination");
+
+            const itemsPerPage = 4;
+            let currentPage = 1;
+
+            function displayProducts(page) {
+                productsRow.innerHTML = "";
+                const start = (page - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const paginatedItems = products.slice(start, end);
+
+                paginatedItems.forEach(product => {
+                    let stars = '';
+                    for (let i = 1; i <= 5; i++) {
+                        if (i <= Math.floor(product.rating)) {
+                            stars += '<i class="fa fa-star"></i>';
+                        } else if (i - product.rating < 1) {
+                            stars += '<i class="fa fa-star-half-o"></i>';
+                        } else {
+                            stars += '<i class="fa fa-star-o"></i>';
+                        }
+                    }
+
+                    productsRow.innerHTML += `
+    <div class="col-4">
+        <a href="products-details.html?id=${product.id}">
+            <img src="${product.image}">
+        </a>
+        <h4>${product.name}</h4>
+        <div class="rating">${stars}</div>
+        <p>$${product.price}</p>
+        <button class="btn" onclick="addToCart(${product.id})">Add to Cart</button>
+    </div>
+`;
+
+                });
+            }
+
+            function setupPagination() {
+                pagination.innerHTML = "";
+                const pageCount = Math.ceil(products.length / itemsPerPage);
+
+                for (let i = 1; i <= pageCount; i++) {
+                    const span = document.createElement("span");
+                    span.innerText = i;
+                    if (i === currentPage) span.classList.add("active");
+
+                    span.addEventListener("click", () => {
+                        currentPage = i;
+                        displayProducts(currentPage);
+                        setupPagination();
+                    });
+
+                    pagination.appendChild(span);
+                }
+            }
+
+            displayProducts(currentPage);
+            setupPagination();
+
+            function getCart() {
+                return JSON.parse(localStorage.getItem("cart")) || [];
+            }
+
+            function saveCart(cart) {
+                localStorage.setItem("cart", JSON.stringify(cart));
+            }
+
+            function updateCartCount() {
+                const cart = getCart();
+                let totalQty = 0;
+                cart.forEach(item => totalQty += item.qty);
+                document.getElementById("cartCount").innerText = totalQty;
+            }
+
+            function addToCart(productId) {
+                const cart = getCart();
+                const product = products.find(p => p.id === productId);
+
+                const existing = cart.find(item => item.id === productId);
+
+                if (existing) {
+                    existing.qty += 1;
+                } else {
+                    cart.push({
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        image: product.image,
+                        qty: 1
+                    });
+                }
+
+                saveCart(cart);
+                updateCartCount();
+            }
+
+            // Page load pe cart count show karo
+            updateCartCount();
+
+        </script>
+
+
+
+</body>
+
+</html>

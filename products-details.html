@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width-device-width, initial-scale=1.0">
+    <title>Product Details - Redstore</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html"><img src="images/logo.png" width="125px"></a>
+            </div>
+            <nav>
+                <ul id="MenuItems">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="">Contact</a></li>
+                    <li><a href="account.html">Account</a></li>
+                </ul>
+            </nav>
+            <a href="cart.html">
+                <img src="images/cart.png" width="30px" height="30px">
+                <span id="cartCount">0</span>
+            </a>
+
+            <img src="images/menu.png" class="menu-icon" onClick="menutoggle()">
+        </div>
+    </div>
+
+    <div class="small-container single-product">
+        <div class="row">
+            <div class="col-2">
+                <img id="productImg" width="100%">
+
+                <div class="small-img-row" id="smallImages"></div>
+            </div>
+
+            <div class="col-2">
+                <p id="breadcrumb">Home / Shoes</p>
+                <h1 id="productName"></h1>
+                <h4 id="productPrice"></h4>
+                <select id="size">
+                    <option value="">Select Size</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+                <input type="number" id="qty" value="1" min="1">
+                <a href="javascript:void(0)" class="btn" onclick="addToCart()">Add to Cart</a>
+
+                <h3>Product Details <i class="fa fa-indent"></i></h3>
+                <br>
+                <p id="productDesc"></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+
+            <div class="row">
+                <div class="footer-col-1">
+                    <h3>Download Our App</h3>
+                    <p>Download App for Android and ios mobile phone.</p>
+                    <div class="app-logo">
+                        <img src="images/play-store.png" alt="">
+                        <img src="images/app-store.png" alt="">
+                    </div>
+                </div>
+                <div class="footer-col-2">
+                    <img src="images/logo-white.png">
+                    <p>Our Purpose Is To Sustainably Make the Pleasure and Benefits of Sports Accessible to the Many.
+                    </p>
+                </div>
+                <div class="footer-col-3">
+                    <h3>Useful Links</h3>
+                    <ul>
+                        <li>Coupons</li>
+                        <li>Blog Post</li>
+                        <li>Return Policy</li>
+                        <li>Join Affiliate</li>
+                    </ul>
+                </div>
+                <div class="footer-col-4">
+                    <h3>Follow us</h3>
+                    <ul>
+                        <li>Facebook</li>
+                        <li>Twitter</li>
+                        <li>Instagram</li>
+                        <li>Youtube</li>
+                    </ul>
+                </div>
+
+            </div>
+            <hr>
+        </div>
+    </div>
+
+    <script>
+        var MenuItems = document.getElementById("MenuItems");
+        MenuItems.style.maxHeight = "0px";
+
+        function menutoggle() {
+            MenuItems.style.maxHeight = MenuItems.style.maxHeight === "0px" ? "200px" : "0px";
+        }
+
+        const products = [
+            { id: 11, name: "Downshifter Sports Shoes", price: 50, image: "images/product-11.jpg", desc: "Long established fact...", images: ["images/product-11.jpg", "images/product-5.jpg"] },
+            { id: 2, name: "Lace-Up Running Shoes", price: 35, image: "images/product-2.jpg", desc: "Comfortable running shoes...", images: ["images/product-2.jpg"] },
+            { id: 3, name: "Lace Fastening Shoes", price: 15, image: "images/product-3.jpg", desc: "Stylish lace fastening shoes...", images: ["images/product-3.jpg"] },
+            { id: 10, name: "Flat Lace-Fastening Shoes", price: 48, image: "images/product-10.jpg", desc: "Flat lace fastening shoes...", images: ["images/product-10.jpg"] },
+            { id: 5, name: "Flat Heel gray shoes", price: 50, image: "images/product-5.jpg", desc: "Gray flat heel shoes...", images: ["images/product-5.jpg"] },
+        ];
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = parseInt(urlParams.get("id"));
+
+        const product = products.find(p => p.id === productId);
+
+        if (product) {
+            document.getElementById("productImg").src = product.image;
+            document.getElementById("productName").innerText = product.name;
+            document.getElementById("productPrice").innerText = "$" + product.price;
+            document.getElementById("productDesc").innerText = product.desc;
+
+            const smallImagesDiv = document.getElementById("smallImages");
+            product.images.forEach(img => {
+                smallImagesDiv.innerHTML += `
+                    <div class="small-img-col">
+                        <img src="${img}" width="100%" class="small-img">
+                    </div>
+                `;
+            });
+        }
+
+        function getCart() {
+            return JSON.parse(localStorage.getItem("cart")) || [];
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem("cart", JSON.stringify(cart));
+        }
+
+        function updateCartCount() {
+            const cart = getCart();
+            let totalQty = 0;
+            cart.forEach(item => totalQty += item.qty);
+            const cartBadge = document.getElementById("cartCount");
+            if (cartBadge) cartBadge.innerText = totalQty;
+        }
+
+        updateCartCount();
+
+        function addToCart() {
+            let cart = getCart();
+            const qty = parseInt(document.getElementById("qty").value);
+            const size = document.getElementById("size").value;
+
+            if (!size) {
+                alert("Please select size");
+                return;
+            }
+
+            const cartItem = { id: product.id, name: product.name, price: product.price, image: product.image, qty, size };
+            let existing = cart.find(item => item.id === cartItem.id && item.size === size);
+
+            if (existing) {
+                existing.qty += qty;
+            } else {
+                cart.push(cartItem);
+            }
+
+            saveCart(cart);
+            updateCartCount(); // Update cart badge
+            alert("Product added to cart!");
+
+        }
+
+    </script>
+</body>
+
+</html>

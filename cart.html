@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width-device-width, initial-scale=1.0">
+    <title>Cart - Redstore</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html"><img src="images/logo.png" width="125px"></a>
+            </div>
+            <nav>
+                <ul id="MenuItems">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="account.html">Account</a></li>
+                </ul>
+            </nav>
+            <a href="cart.html"><img src="images/cart.png" width="30px"></a>
+            <img src="images/menu.png" class="menu-icon" onclick="menutoggle()">
+        </div>
+    </div>
+
+    <div class="small-container cart-page" id="cartSection">
+        <table id="cartTable">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <div class="total-price">
+            <table>
+                <tr>
+                    <td>Total</td>
+                    <td id="totalPrice">$0</td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="text-align:right;">
+            <button class="btn" onclick="showCheckout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <div class="small-container checkout-form" id="checkoutForm">
+        <h2>Checkout Details</h2>
+
+        <input type="text" id="name" placeholder="Full Name" required>
+        <input type="email" id="email" placeholder="Email Address" required>
+        <input type="text" id="phone" placeholder="Phone Number" required>
+        <input type="text" id="address" placeholder="Street Address" required>
+        <input type="text" id="city" placeholder="City" required>
+
+        <button class="btn" onclick="placeOrder()">Place Order</button>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="popup">
+        <h2>Purchase Successful!</h2>
+        <p>Your order has been placed successfully.</p>
+        <button onclick="closePopup()">OK</button>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+
+            <div class="row">
+                <div class="footer-col-1">
+                    <h3>Download Our App</h3>
+                    <p>Download App for Android and ios mobile phone.</p>
+                    <div class="app-logo">
+                        <img src="images/play-store.png" alt="">
+                        <img src="images/app-store.png" alt="">
+                    </div>
+                </div>
+                <div class="footer-col-2">
+                    <img src="images/logo-white.png">
+                    <p>Our Purpose Is To Sustainably Make the Pleasure and Benefits of Sports Accessible to the Many.
+                    </p>
+                </div>
+                <div class="footer-col-3">
+                    <h3>Useful Links</h3>
+                    <ul>
+                        <li>Coupons</li>
+                        <li>Blog Post</li>
+                        <li>Return Policy</li>
+                        <li>Join Affiliate</li>
+                    </ul>
+                </div>
+                <div class="footer-col-4">
+                    <h3>Follow us</h3>
+                    <ul>
+                        <li>Facebook</li>
+                        <li>Twitter</li>
+                        <li>Instagram</li>
+                        <li>Youtube</li>
+                    </ul>
+                </div>
+
+            </div>
+            <hr>
+        </div>
+    </div>
+
+    <script>
+        var MenuItems = document.getElementById("MenuItems");
+        MenuItems.style.maxHeight = "0px";
+        function menutoggle() {
+            MenuItems.style.maxHeight = MenuItems.style.maxHeight === "0px" ? "200px" : "0px";
+        }
+
+        function loadCart() {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const tbody = document.querySelector("#cartTable tbody");
+            const totalEl = document.getElementById("totalPrice");
+
+            tbody.innerHTML = "";
+            let total = 0;
+
+            if (cart.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" style="text-align:center">Cart is empty</td></tr>`;
+                totalEl.innerText = "$0";
+                return;
+            }
+
+            cart.forEach((item, index) => {
+                total += item.price * item.qty;
+
+                tbody.innerHTML += `
+                <tr>
+                    <td>
+                        <div class="cart-info">
+                            <img src="${item.image}" alt="${item.name}">
+                            <div>
+                                <p>${item.name}</p>
+                                <small>Price: $${item.price}</small><br>
+                                <a href="javascript:void(0)" onclick="removeItem(${index})">Remove</a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <input type="number" value="${item.qty}" min="1" onchange="updateQty(${index}, this.value)">
+                    </td>
+                    <td>$${item.price * item.qty}</td>
+                </tr>`;
+            });
+
+            totalEl.innerText = "$" + total;
+        }
+
+        function removeItem(index) {
+            let cart = JSON.parse(localStorage.getItem("cart"));
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            loadCart();
+        }
+
+        function updateQty(index, qty) {
+            let cart = JSON.parse(localStorage.getItem("cart"));
+            cart[index].qty = parseInt(qty);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            loadCart();
+        }
+
+        function showCheckout() {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+            document.getElementById("cartSection").style.display = "none";
+            document.getElementById("checkoutForm").style.display = "block";
+        }
+
+        function placeOrder() {
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const phone = document.getElementById("phone").value;
+            const address = document.getElementById("address").value;
+            const city = document.getElementById("city").value;
+
+            if (!name || !email || !phone || !address || !city) {
+                alert("Please fill all fields");
+                return;
+            }
+
+            document.getElementById("overlay").classList.add("show");
+            document.getElementById("popup").classList.add("show");
+
+            setTimeout(() => {
+                localStorage.removeItem("cart");
+                window.location.href = "index.html";
+            }, 1500);
+        }
+
+        function closePopup() {
+            document.getElementById("overlay").classList.remove("show");
+            document.getElementById("popup").classList.remove("show");
+            localStorage.removeItem("cart");
+            window.location.href = "index.html";
+        }
+
+        loadCart();
+    </script>
+
+</body>
+
+</html>
